@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa Poniente</title>
+    <style>
+        body {
+            background-color: rgb(206, 160, 92);
+            margin: 0;
+        }
+
+        #contenedor-mapa {
+            position: relative;
+            width: 686px;
+            height: 1024px;
+            margin: 0 auto;
+        }
+
+        #mapa {
+            width: 100%;
+            height: 100%;
+        }
+
+        #informacion {
+            display: none;
+            position: absolute;
+            background-color: #3c3020;
+            color: white;
+            padding: 10px;
+            border: 1px solid black;
+            width: 200px;
+            z-index: 10;
+            font-size: 12px;
+        }
+
+        .castillo {
+            width: 65px;
+            height: 65px;
+            position: absolute;
+            cursor: pointer;
+        }
+
+        .castillo img {
+            width: 100%;
+            height: 100%;
+        }
+
+        #Castillo1  { top: 68px;  left: 410px; }
+        #Castillo2  { top: 108px; left: 215px; }
+        #Castillo3  { top: 168px; left: 500px; }
+        #Castillo4  { top: 225px; left: 205px; }
+        #Castillo5  { top: 255px; left: 432px; }
+        #Castillo6  { top: 430px; left: 175px; }
+        #Castillo7  { top: 478px; left: 315px; }
+        #Castillo8  { top: 478px; left: 448px; }
+        #Castillo9  { top: 598px; left: 192px; }
+        #Castillo10 { top: 775px; left: 382px; }
+        #Castillo11 { top: 860px; left: 198px; }
+        #Castillo12 { top: 875px; left: 520px; }
+    </style>
+</head>
+<body>
+
+    <div id="contenedor-mapa">
+        <img id="mapa" src="mapa.jpeg" alt="Mapa">
+        <div id="informacion"></div>
+
+        <div id="Castillo1" class="castillo"><img src="stark.jpg" alt=""></div>
+        <div id="Castillo2" class="castillo"><img src="targaryen.jpg" alt=""></div>
+        <div id="Castillo3" class="castillo"><img src="baratheon.jpg" alt=""></div>
+        <div id="Castillo4" class="castillo"><img src="arryn.jpg" alt=""></div>
+        <div id="Castillo5" class="castillo"><img src="lannister.jpg" alt=""></div>
+        <div id="Castillo6" class="castillo"><img src="greyjoy.jpg" alt=""></div>
+        <div id="Castillo7" class="castillo"><img src="tully.jpg" alt=""></div>
+        <div id="Castillo8" class="castillo"><img src="tyrell.jpg" alt=""></div>
+        <div id="Castillo9" class="castillo"><img src="bolton.jpg" alt=""></div>
+        <div id="Castillo10" class="castillo"></div>
+        <div id="Castillo11" class="castillo"><img src="martell.jpg" alt=""></div>
+        <div id="Castillo12" class="castillo"></div>
+    </div>
+    <script>
+        class Casa {
+            constructor(idDiv, nombre, asentamiento, region, emblema, lema, personajes, caracteristicas, esClick = false) {
+                this.idDiv = idDiv;
+                this.nombre = nombre;
+                this.asentamiento = asentamiento;
+                this.region = region;
+                this.emblema = emblema;
+                this.lema = lema;
+                this.personajes = personajes;
+                this.caracteristicas = caracteristicas;
+                this.esClick = esClick;
+            }
+        }
+
+        const casas = [
+            new Casa("Castillo1", "Casa Stark", "Invernalia", "El Norte", "Lobo huargo gris sobre fondo blanco", "«Se acerca el invierno»", "Eddard, Robb, Sansa, Arya y Bran Stark", "Honor, lealtad y tradición"),
+            new Casa("Castillo2", "Casa Targaryen", "Rocadragón", "Tierras de la Corona", "Dragón rojo de tres cabezas sobre fondo negro", "«Fuego y sangre»", "Daenerys, Viserys y Aegon Targaryen", "Antigua dinastía real vinculada a los dragones", true),
+            new Casa("Castillo3", "Casa Baratheon", "Bastión de Tormentas", "Tierras de la Tormenta", "Ciervo negro coronado sobre fondo dorado", "«Nuestra es la furia»", "Robert, Stannis y Renly Baratheon", "Fuerza, orgullo y espíritu guerrero"),
+            new Casa("Castillo4", "Casa Arryn", "Nido de Águilas", "El Valle de Arryn", "Halcón y luna blanca sobre fondo azul", "«Tan alto como el honor»", "Jon y Robin Arryn", "Fortaleza situada en lo alto de las montañas"),
+            new Casa("Castillo5", "Casa Lannister", "Roca Casterly", "Occidente", "León dorado sobre fondo carmesí", "«¡Oye mi rugido!»", "Tywin, Cersei, Jaime y Tyrion Lannister", "Riqueza, poder político y ambición", true),
+            new Casa("Castillo6", "Casa Greyjoy", "Pyke", "Islas del Hierro", "Kraken dorado sobre fondo negro", "«Nosotros no sembramos»", "Balon, Theon y Yara Greyjoy", "Navegación, independencia y tradición marinera"),
+            new Casa("Castillo7", "Casa Tully", "Aguasdulces", "Tierras de los Ríos", "Trucha plateada sobre fondo azul y rojo", "«Familia, deber, honor»", "Hoster, Edmure y Catelyn Tully", "Lealtad familiar y alianzas políticas"),
+            new Casa("Castillo8", "Casa Tyrell", "Altojardín", "El Dominio", "Rosa dorada sobre fondo verde", "«Crecer fuerte»", "Mace, Margaery y Olenna Tyrell", "Riqueza agrícola, diplomacia e influencia"),
+            new Casa("Castillo9", "Casa Bolton", "Fuerte Terror", "El Norte", "Hombre desollado sobre fondo rojo", "«Nuestras hojas son afiladas»", "Roose y Ramsay Bolton", "Crueldad y rivalidad histórica con los Stark", true),
+            new Casa("Castillo10", "Casa Baratheon", "Bastión de Tormentas", "Tierras de la Tormenta", "Ciervo negro coronado sobre fondo dorado", "«Nuestra es la furia»", "Robert, Stannis y Renly Baratheon", "Fuerza, orgullo y espíritu guerrero"),
+            new Casa("Castillo11", "Casa Martell", "Lanza del Sol", "Dorne", "Sol rojo atravesado por una lanza sobre fondo naranja", "«Nunca doblegado, nunca roto»", "Doran, Oberyn y Trystane Martell", "Independencia, orgullo y resistencia", true)
+        ];
+
+        const info = document.getElementById("informacion");
+
+        function mostrarInfo(casa, div) {
+            info.innerHTML = `
+                <b>${casa.nombre}</b> (${casa.asentamiento})<br>
+                <i>${casa.lema}</i><br><br>
+                <b>Región:</b> ${casa.region}<br>
+                <b>Emblema:</b> ${casa.emblema}<br>
+                <b>Personajes:</b> ${casa.personajes}<br>
+                <b>Características:</b> ${casa.caracteristicas}
+            `;
+            info.style.left = (div.offsetLeft + 70) + "px";
+            info.style.top = div.offsetTop + "px";
+            info.style.display = "block";
+        }
+
+        casas.forEach(casa => {
+            const div = document.getElementById(casa.idDiv);
+            if (!div) return;
+
+            if (casa.esClick) {
+                div.onclick = (e) => {
+                    e.stopPropagation();
+                    mostrarInfo(casa, div);
+                };
+            } else {
+                div.onmouseenter = () => mostrarInfo(casa, div);
+                div.onmouseleave = () => info.style.display = "none";
+            }
+        });
+
+        document.body.onclick = () => {
+            info.style.display = "none";
+        };
+    </script>
+</body>
+</html>
